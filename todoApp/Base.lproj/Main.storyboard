@@ -176,7 +176,7 @@
         <!--Todo View Controller-->
         <scene sceneID="LpI-ul-pCO">
             <objects>
-                <viewController storyboardIdentifier="todoViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pQ8-Gs-Tm1" customClass="todoViewController" customModule="todoApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="todoViewController" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pQ8-Gs-Tm1" customClass="todoViewController" customModule="todoApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="A9P-X8-7dy">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -260,6 +260,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cZl-TN-hdm"/>
                     </view>
+                    <navigationItem key="navigationItem" id="iSB-Ac-7cg"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YUM-GK-lUc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -276,7 +277,13 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hsL-Oc-PZt">
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <items>
-                                    <navigationItem title="グループ名" id="zrO-YH-7Dl"/>
+                                    <navigationItem title="グループ名" id="zrO-YH-7Dl">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Xow-98-os3">
+                                            <connections>
+                                                <segue destination="pQ8-Gs-Tm1" kind="show" id="ldN-uc-7mz"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="woV-7H-1mB">
