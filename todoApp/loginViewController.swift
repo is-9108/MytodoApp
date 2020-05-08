@@ -13,6 +13,14 @@ import FirebaseAuth
 
 class loginViewController: UIViewController {
     
+    @IBOutlet weak var groupNameTextField: UITextField!
+    
+    @IBOutlet weak var passwordTextField: UITextField!
+    
+    @IBOutlet weak var login: UIButton!
+    
+    @IBOutlet weak var newGroup: UIButton!
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if Auth.auth().currentUser == nil{
@@ -27,7 +35,12 @@ class loginViewController: UIViewController {
         
     }
     
+    @IBAction func loginButton(_ sender: Any) {
 
+    }
+    
+    @IBAction func newGroupButton(_ sender: Any) {
+    }
     
 
 }

@@ -20,7 +20,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="パスワード" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SfO-pW-B6D">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="パスワード（６文字以上）" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SfO-pW-B6D">
                                 <rect key="frame" x="30" y="234" width="315" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
@@ -33,6 +33,17 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7tN-Vf-48d">
                                 <rect key="frame" x="149" y="537" width="77" height="30"/>
                                 <state key="normal" title="サインイン"/>
+                                <connections>
+                                    <action selector="signInButton:" destination="zoE-ne-nrU" eventType="touchUpInside" id="pqm-vq-5hA"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9KU-5G-gBm">
+                                <rect key="frame" x="299" y="617" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="allDelete:" destination="zoE-ne-nrU" eventType="touchUpInside" id="8Ma-QK-aeU"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -54,6 +65,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6ad-57-cSc"/>
                     </view>
+                    <connections>
+                        <outlet property="mailAdressTextField" destination="Hvx-q2-lSF" id="u30-9s-gJN"/>
+                        <outlet property="passwordTextField" destination="SfO-pW-B6D" id="SVb-Nl-udT"/>
+                        <outlet property="uerNameTextField" destination="c7Q-OI-uxX" id="Ttv-gu-gVY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bbi-Kg-iY0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -81,6 +97,7 @@
                                 <rect key="frame" x="156.5" y="487" width="62" height="30"/>
                                 <state key="normal" title="ログイン"/>
                                 <connections>
+                                    <action selector="loginButton:" destination="pqz-eG-7uu" eventType="touchUpInside" id="XH9-4e-05i"/>
                                     <segue destination="h4o-Yx-6XW" kind="show" id="Z7a-Lq-3co"/>
                                 </connections>
                             </button>
@@ -88,6 +105,7 @@
                                 <rect key="frame" x="111" y="547" width="153" height="30"/>
                                 <state key="normal" title="新しいグループを作成"/>
                                 <connections>
+                                    <action selector="newGroupButton:" destination="pqz-eG-7uu" eventType="touchUpInside" id="u1j-V0-mj8"/>
                                     <segue destination="YhN-Q7-KhG" kind="show" id="zzj-w4-ttH"/>
                                 </connections>
                             </button>
@@ -109,10 +127,16 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="k7f-hw-Rp1"/>
                     </view>
+                    <connections>
+                        <outlet property="groupNameTextField" destination="UjC-4q-Jek" id="Ay5-X6-LaV"/>
+                        <outlet property="login" destination="YxT-jT-wCu" id="Eah-1K-mf1"/>
+                        <outlet property="newGroup" destination="qwV-6h-s3m" id="QKx-Gw-cLy"/>
+                        <outlet property="passwordTextField" destination="NuD-oj-1Fh" id="TK7-Nr-zhi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8cj-vq-uxK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-536" y="104"/>
+            <point key="canvasLocation" x="-536.79999999999995" y="103.89805097451276"/>
         </scene>
         <!--Creat Todo View Controller-->
         <scene sceneID="XI8-cj-kpa">
@@ -171,7 +195,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jjY-fv-uc9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="235" y="506"/>
+            <point key="canvasLocation" x="255" y="478"/>
         </scene>
         <!--Todo View Controller-->
         <scene sceneID="LpI-ul-pCO">
@@ -317,7 +341,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CpM-7E-fv0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="234.78260869565219" y="-316.07142857142856"/>
+            <point key="canvasLocation" x="254" y="-316"/>
         </scene>
     </scenes>
 </document>
