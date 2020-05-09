@@ -15,11 +15,13 @@ class creatTodoViewController: UIViewController {
     
     @IBOutlet weak var passwordTextField: UITextField!
     
+    @IBOutlet weak var creatButton: UIButton!
+    
     let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
        
     }
     
@@ -27,21 +29,52 @@ class creatTodoViewController: UIViewController {
         
         let groupName = groupNameTextField.text!
         let password = passwordTextField.text!
-        
+        if groupNameTextField.text != "" && passwordTextField.text != ""{
         var ref:DocumentReference? = nil
         ref = db.collection("TODOGroup").addDocument(data: [
-            "gruopName" : groupName,
+            "groupName" : groupName,
             "password" : password
         ]){err in
             if let err = err{
                 print(err.localizedDescription)
-            }else{
-                print(ref?.documentID)
             }
         }
         
         let editTodoViewController = self.storyboard?.instantiateViewController(withIdentifier: "editTodoViewController")
         present(editTodoViewController!,animated: true,completion: nil)
+        }else{
+            if groupNameTextField.text == ""{
+                print("groupName")
+                let alert: UIAlertController = UIAlertController(title: "グループ名を設定して下さい", message: nil, preferredStyle: .alert)
+                
+                let action:UIAlertAction = UIAlertAction(title: "OK", style: .cancel, handler:{
+                    (action: UIAlertAction!) -> Void in
+                    print("OK")
+                })
+                alert.addAction(action)
+                self.present(alert,animated: true,completion: nil)
+            }else if passwordTextField.text == ""{
+                print("password")
+                let alert: UIAlertController = UIAlertController(title: "パスワードを設定して下さい", message: nil, preferredStyle: .alert)
+                
+                let action:UIAlertAction = UIAlertAction(title: "OK", style: .cancel, handler:{
+                    (action: UIAlertAction!) -> Void in
+                    print("OK")
+                })
+                alert.addAction(action)
+                self.present(alert,animated: true,completion: nil)
+            }else{
+                print("ALL")
+                let alert: UIAlertController = UIAlertController(title: "グループ名とパスワードを設定して下さい", message: nil, preferredStyle: .alert)
+                
+                let action:UIAlertAction = UIAlertAction(title: "OK", style: .cancel, handler:{
+                    (action: UIAlertAction!) -> Void in
+                    print("OK")
+                })
+                alert.addAction(action)
+                self.present(alert,animated: true,completion: nil)
+            }
+        }
    
     }
     

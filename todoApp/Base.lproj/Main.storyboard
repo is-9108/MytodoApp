@@ -137,7 +137,7 @@
                     </view>
                     <connections>
                         <outlet property="groupNameTextField" destination="UjC-4q-Jek" id="Ay5-X6-LaV"/>
-                        <outlet property="login" destination="YxT-jT-wCu" id="Eah-1K-mf1"/>
+                        <outlet property="login" destination="YxT-jT-wCu" id="k1r-vN-ugE"/>
                         <outlet property="newGroup" destination="qwV-6h-s3m" id="QKx-Gw-cLy"/>
                         <outlet property="passwordTextField" destination="NuD-oj-1Fh" id="TK7-Nr-zhi"/>
                     </connections>
@@ -207,6 +207,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="JNK-Hl-G86"/>
                     <connections>
+                        <outlet property="creatButton" destination="ZgO-qa-B9Q" id="6ao-QQ-uhk"/>
                         <outlet property="groupNameTextField" destination="brG-ET-Pdg" id="qS8-SZ-Ue0"/>
                         <outlet property="passwordTextField" destination="cWY-sI-l9F" id="yXS-DH-x3M"/>
                     </connections>

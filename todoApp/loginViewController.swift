@@ -21,6 +21,9 @@ class loginViewController: UIViewController {
     
     @IBOutlet weak var newGroup: UIButton!
     
+    
+    let db = Firestore.firestore()
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if Auth.auth().currentUser == nil{
@@ -31,7 +34,6 @@ class loginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
     }
     
@@ -40,16 +42,21 @@ class loginViewController: UIViewController {
         let groupName = groupNameTextField.text!
         let password = passwordTextField.text!
         
-        Firestore.firestore().collection("TODOGroup").getDocuments{ (snaps,error) in
-            if let error = error{
-                print("ERROR: \(error.localizedDescription)")
+        
+        
+        db.collection("TODOGroup").getDocuments(){ (QuerySnapshot, err) in
+            if let err = err{
+                print("ERROR: \(err.localizedDescription)")
             }else{
-                guard let snaps = snaps else {return}
-                for document in snaps.documents{
-                    print(document.data())
-                    
+                for document in QuerySnapshot!.documents{
+                    let todoGroup = document.data()
+                    let groupName = todoGroup["groupName"] as! String
+                    let pass = todoGroup["password"] as! String
+                    print(groupName)
+                    print(pass)
                 }
             }
+            
         }
 
     }
