@@ -7,24 +7,47 @@
 //
 
 import UIKit
+import Firebase
 
 class creatTodoViewController: UIViewController {
 
+    @IBOutlet weak var groupNameTextField: UITextField!
+    
+    @IBOutlet weak var passwordTextField: UITextField!
+    
+    let db = Firestore.firestore()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+       
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func creatTodo(_ sender: Any) {
+        
+        let groupName = groupNameTextField.text!
+        let password = passwordTextField.text!
+        
+        var ref:DocumentReference? = nil
+        ref = db.collection("TODOGroup").addDocument(data: [
+            "gruopName" : groupName,
+            "password" : password
+        ]){err in
+            if let err = err{
+                print(err.localizedDescription)
+            }else{
+                print(ref?.documentID)
+            }
+        }
+        
+        let editTodoViewController = self.storyboard?.instantiateViewController(withIdentifier: "editTodoViewController")
+        present(editTodoViewController!,animated: true,completion: nil)
+   
     }
-    */
+    
+    @IBAction func cancel(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
 
 }

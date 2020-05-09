@@ -36,11 +36,37 @@ class loginViewController: UIViewController {
     }
     
     @IBAction func loginButton(_ sender: Any) {
+        
+        let groupName = groupNameTextField.text!
+        let password = passwordTextField.text!
+        
+        Firestore.firestore().collection("TODOGroup").getDocuments{ (snaps,error) in
+            if let error = error{
+                print("ERROR: \(error.localizedDescription)")
+            }else{
+                guard let snaps = snaps else {return}
+                for document in snaps.documents{
+                    print(document.data())
+                    
+                }
+            }
+        }
 
     }
     
     @IBAction func newGroupButton(_ sender: Any) {
     }
     
+    @IBAction func allDelete(_ sender: Any) {
+        let user = Auth.auth().currentUser
 
+        user?.delete { error in
+          if let error = error {
+            // An error happened.
+          } else {
+            // Account deleted.
+          }
+        }
+    }
+    
 }

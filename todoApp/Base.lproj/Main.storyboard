@@ -78,7 +78,7 @@
         <!--Login View Controller-->
         <scene sceneID="Sld-R5-ze6">
             <objects>
-                <viewController storyboardIdentifier="loginViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pqz-eG-7uu" customClass="loginViewController" customModule="todoApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginViewController" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pqz-eG-7uu" customClass="loginViewController" customModule="todoApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0Ea-zw-49U">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -107,6 +107,14 @@
                                 <connections>
                                     <action selector="newGroupButton:" destination="pqz-eG-7uu" eventType="touchUpInside" id="u1j-V0-mj8"/>
                                     <segue destination="YhN-Q7-KhG" kind="show" id="zzj-w4-ttH"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nmw-HI-HyW">
+                                <rect key="frame" x="299" y="617" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="allDelete:" destination="pqz-eG-7uu" eventType="touchUpInside" id="el3-28-GDI"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -165,10 +173,16 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZgO-qa-B9Q">
                                 <rect key="frame" x="172" y="407" width="31" height="30"/>
                                 <state key="normal" title="作成"/>
+                                <connections>
+                                    <action selector="creatTodo:" destination="YhN-Q7-KhG" eventType="touchUpInside" id="KPZ-el-FCk"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Zh-HB-f4M">
                                 <rect key="frame" x="149" y="537" width="77" height="30"/>
                                 <state key="normal" title="キャンセル"/>
+                                <connections>
+                                    <action selector="cancel:" destination="YhN-Q7-KhG" eventType="touchUpInside" id="z1A-7g-HnW"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -192,6 +206,10 @@
                         <viewLayoutGuide key="safeArea" id="t6B-cR-TXJ"/>
                     </view>
                     <navigationItem key="navigationItem" id="JNK-Hl-G86"/>
+                    <connections>
+                        <outlet property="groupNameTextField" destination="brG-ET-Pdg" id="qS8-SZ-Ue0"/>
+                        <outlet property="passwordTextField" destination="cWY-sI-l9F" id="yXS-DH-x3M"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jjY-fv-uc9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -302,6 +320,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <items>
                                     <navigationItem title="グループ名" id="zrO-YH-7Dl">
+                                        <barButtonItem key="leftBarButtonItem" title="Item" image="arrowshape.turn.up.left" catalog="system" id="rXt-aA-ndX">
+                                            <connections>
+                                                <action selector="back:" destination="h4o-Yx-6XW" id="VrZ-eu-SgL"/>
+                                            </connections>
+                                        </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Xow-98-os3">
                                             <connections>
                                                 <segue destination="pQ8-Gs-Tm1" kind="show" id="ldN-uc-7mz"/>
@@ -344,4 +367,7 @@
             <point key="canvasLocation" x="254" y="-316"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="arrowshape.turn.up.left" catalog="system" width="128" height="106"/>
+    </resources>
 </document>
