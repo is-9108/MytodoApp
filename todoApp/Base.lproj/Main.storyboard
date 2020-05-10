@@ -250,8 +250,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ユーザー" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y4w-nu-vhT">
-                                <rect key="frame" x="152.5" y="390" width="70" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="作成者" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y4w-nu-vhT">
+                                <rect key="frame" x="161.5" y="390" width="52" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -264,12 +264,19 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tsN-Bh-K8X">
                                 <rect key="frame" x="172" y="537" width="31" height="30"/>
                                 <state key="normal" title="追加"/>
+                                <connections>
+                                    <action selector="addButton:" destination="pQ8-Gs-Tm1" eventType="touchUpInside" id="gP6-as-E8N"/>
+                                </connections>
                             </button>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qey-lg-rR7">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <items>
                                     <navigationItem title="TODO設定" id="ih1-sj-3eE">
-                                        <barButtonItem key="leftBarButtonItem" title="Item" id="CZj-pX-Fma"/>
+                                        <barButtonItem key="leftBarButtonItem" image="arrowshape.turn.up.left" catalog="system" id="CZj-pX-Fma">
+                                            <connections>
+                                                <action selector="backButton:" destination="pQ8-Gs-Tm1" id="qip-IO-eTe"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -303,6 +310,11 @@
                         <viewLayoutGuide key="safeArea" id="cZl-TN-hdm"/>
                     </view>
                     <navigationItem key="navigationItem" id="iSB-Ac-7cg"/>
+                    <connections>
+                        <outlet property="memoTextField" destination="4V9-As-HSD" id="l68-sT-RQC"/>
+                        <outlet property="titleTextField" destination="cBB-fV-bUc" id="dvJ-21-Gqm"/>
+                        <outlet property="userNameTextField" destination="d5e-iY-JHU" id="j1s-35-PMY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YUM-GK-lUc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -327,7 +339,7 @@
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Xow-98-os3">
                                             <connections>
-                                                <segue destination="pQ8-Gs-Tm1" kind="show" id="ldN-uc-7mz"/>
+                                                <action selector="add:" destination="h4o-Yx-6XW" id="Pjt-6k-RFg"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -337,7 +349,7 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ull-l1-u9i">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="ull-l1-u9i">
                                         <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ull-l1-u9i" id="cyH-kg-wEa">

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class editTodoViewController: UIViewController {
     
@@ -15,6 +16,8 @@ class editTodoViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    var groupName = ""
+       
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,6 +26,12 @@ class editTodoViewController: UIViewController {
         
     }
   
+    @IBAction func add(_ sender: Any) {
+        let todoViewController = self.storyboard?.instantiateViewController(withIdentifier: "todoViewController") as! todoViewController
+        todoViewController.groupName = groupName
+        present(todoViewController,animated: true,completion: nil)
+    }
+    
     @IBAction func back(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
@@ -35,11 +44,14 @@ extension editTodoViewController: UITableViewDelegate{
 
 extension editTodoViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        
+        cell.textLabel?.text = ""
+        return cell
     }
     
     

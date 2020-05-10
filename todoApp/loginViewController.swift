@@ -59,8 +59,9 @@ class loginViewController: UIViewController {
                     
                     if groupName == group{
                         if password == pass{
-                            let editTodoViewController = self.storyboard?.instantiateViewController(withIdentifier: "editTodoViewController")
-                            self.present(editTodoViewController!,animated: true,completion: nil)
+                            let editTodoViewController = self.storyboard?.instantiateViewController(withIdentifier: "editTodoViewController") as! editTodoViewController
+                            editTodoViewController.groupName = group
+                            self.present(editTodoViewController,animated: true,completion: nil)
                         }
                     }
                     
