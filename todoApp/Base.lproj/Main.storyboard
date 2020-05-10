@@ -98,7 +98,6 @@
                                 <state key="normal" title="ログイン"/>
                                 <connections>
                                     <action selector="loginButton:" destination="pqz-eG-7uu" eventType="touchUpInside" id="XH9-4e-05i"/>
-                                    <segue destination="h4o-Yx-6XW" kind="show" id="Z7a-Lq-3co"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qwV-6h-s3m">
@@ -320,7 +319,7 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hsL-Oc-PZt">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <items>
-                                    <navigationItem title="グループ名" id="zrO-YH-7Dl">
+                                    <navigationItem title="TODO" id="zrO-YH-7Dl">
                                         <barButtonItem key="leftBarButtonItem" title="Item" image="arrowshape.turn.up.left" catalog="system" id="rXt-aA-ndX">
                                             <connections>
                                                 <action selector="back:" destination="h4o-Yx-6XW" id="VrZ-eu-SgL"/>
@@ -362,6 +361,10 @@
                         <viewLayoutGuide key="safeArea" id="BtJ-fQ-HyA"/>
                     </view>
                     <navigationItem key="navigationItem" id="reQ-0K-MjH"/>
+                    <connections>
+                        <outlet property="barItem" destination="hsL-Oc-PZt" id="5PR-UH-0H2"/>
+                        <outlet property="tableView" destination="woV-7H-1mB" id="54w-Cx-Bds"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CpM-7E-fv0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

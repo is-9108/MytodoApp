@@ -50,10 +50,20 @@ class loginViewController: UIViewController {
             }else{
                 for document in QuerySnapshot!.documents{
                     let todoGroup = document.data()
-                    let groupName = todoGroup["groupName"] as! String
+                    let group = todoGroup["groupName"] as! String
                     let pass = todoGroup["password"] as! String
+                    print(group)
                     print(groupName)
                     print(pass)
+                    print(password)
+                    
+                    if groupName == group{
+                        if password == pass{
+                            let editTodoViewController = self.storyboard?.instantiateViewController(withIdentifier: "editTodoViewController")
+                            self.present(editTodoViewController!,animated: true,completion: nil)
+                        }
+                    }
+                    
                 }
             }
             
