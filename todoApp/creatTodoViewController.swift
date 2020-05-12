@@ -39,7 +39,6 @@ class creatTodoViewController: UIViewController {
                 print(err.localizedDescription)
             }
         }
-        
         let editTodoViewController = self.storyboard?.instantiateViewController(withIdentifier: "editTodoViewController")
         present(editTodoViewController!,animated: true,completion: nil)
         }else{
@@ -75,7 +74,7 @@ class creatTodoViewController: UIViewController {
                 self.present(alert,animated: true,completion: nil)
             }
         }
-   
+           
     }
     
     @IBAction func cancel(_ sender: Any) {

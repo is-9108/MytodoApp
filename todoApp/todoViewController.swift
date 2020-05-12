@@ -31,7 +31,7 @@ class todoViewController: UIViewController {
     
     @IBAction func addButton(_ sender: Any) {
         let title = titleTextField.text!
-        let memo = memoTextField.text
+        let memo = memoTextField.text!
         let user = userNameTextField.text!
         
         let key = ref.child("\(groupName)").childByAutoId().key
@@ -47,8 +47,31 @@ class todoViewController: UIViewController {
         titleTextField.text = ""
         memoTextField.text = ""
         userNameTextField.text = ""
+        let editTodoViewController = self.storyboard?.instantiateViewController(withIdentifier: "editTodoViewController") as! editTodoViewController
+
+        editTodoViewController.todoTitle = title
+        editTodoViewController.todoMemo = memo
+        editTodoViewController.todoUser = user
+        present(editTodoViewController,animated: true,completion: nil)
         
     }
+    
+//    func inputTodo(){
+//         print("開始")
+//         let ref:DatabaseReference? = nil
+//         ref!.observe(DataEventType.childAdded, with: { (snapshot) -> Void in
+//             let postDict = snapshot.value as? [String : AnyObject] ?? [:]
+//             print(postDict)
+//
+//             if let title = postDict["title"] as? String,let memo = postDict["memo"] as? String,let user = postDict["user"] as? String{
+//                 let editTodoViewController = self.storyboard?.instantiateViewController(withIdentifier: "editTodoViewController") as! editTodoViewController
+//                 editTodoViewController.todoTitle = title
+//                 editTodoViewController.todoMemo = memo
+//                 editTodoViewController.todoUser = user
+//                 print("受け渡し完了")
+//             }
+//         })
+//     }
     
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
