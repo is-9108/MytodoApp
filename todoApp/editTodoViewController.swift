@@ -35,7 +35,6 @@ class editTodoViewController: UIViewController {
         tableView.dataSource = self
         titleList.append(todoTitle)
         ref = Database.database().reference()
-        print("タイトル\(todoTitle)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,6 +45,7 @@ class editTodoViewController: UIViewController {
         print("メモ\(todoMemo)")
         print("ユーザー\(todoUser)")
         
+        titleList.append(todoTitle)
         tableView.reloadData()
     }
       
