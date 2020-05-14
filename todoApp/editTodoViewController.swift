@@ -33,19 +33,29 @@ class editTodoViewController: UIViewController {
 
         tableView.delegate = self
         tableView.dataSource = self
-        titleList.append(todoTitle)
         ref = Database.database().reference()
+        tableView.reloadData()
     }
     
+    func inputTodo(){
+        self.ref.child("\(groupName)").observeSingleEvent(of: .value, with: { (snapshot) in
+            for todo in snapshot.children{
+                
+                if let snap = todo as? DataSnapshot{
+                    let td = snap.value! as! [String:String]
+                    print("title: \(td["title"]!)")
+                    self.titleList.append(td["title"]!)
+                }
+            }
+            self.tableView.reloadData()
+        })
+        
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("willApper")
-        print("タイトルリスト\(titleList)")
-        print("タイトル\(todoTitle)")
-        print("メモ\(todoMemo)")
-        print("ユーザー\(todoUser)")
-        
-        titleList.append(todoTitle)
+        inputTodo()
+        print(titleList)
         tableView.reloadData()
     }
       

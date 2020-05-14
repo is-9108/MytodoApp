@@ -27,7 +27,7 @@ class todoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
-//        inputTodo()
+
     }
     
     @IBAction func addButton(_ sender: Any) {
@@ -41,35 +41,31 @@ class todoViewController: UIViewController {
             "user" : user
         ]
         
-        self.ref.childByAutoId().setValue(todoData)
+        self.ref.child("\(groupName)").childByAutoId().setValue(todoData)
         
         titleTextField.text = ""
         memoTextField.text = ""
         userNameTextField.text = ""
        
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        inputTodo()
-    }
     
-    func inputTodo(){
-         print("開始")
-         let ref:DatabaseReference? = nil
-        self.ref.observe(DataEventType.childAdded, with: { (snapshot) -> Void in
-             let postDict = snapshot.value as? [String : AnyObject] ?? [:]
-             print(postDict)
-
-             if let title = postDict["title"] as? String,let memo = postDict["memo"] as? String,let user = postDict["user"] as? String{
-                 let editTodoViewController = self.storyboard?.instantiateViewController(withIdentifier: "editTodoViewController") as! editTodoViewController
-                 editTodoViewController.todoTitle = title
-                 editTodoViewController.todoMemo = memo
-                 editTodoViewController.todoUser = user
-                self.present(editTodoViewController,animated: true,completion: nil)
-                 print("受け渡し完了")
-             }
-         })
-     }
+//    func inputTodo(){
+//         print("開始")
+// //        let ref:DatabaseReference? = nil
+//        self.ref.observe(DataEventType.childAdded, with: { (snapshot) -> Void in
+//             let postDict = snapshot.value as? [String : AnyObject] ?? [:]
+//             print(postDict)
+//
+//             if let title = postDict["title"] as? String,let memo = postDict["memo"] as? String,let user = postDict["user"] as? String{
+//                 let editTodoViewController = self.storyboard?.instantiateViewController(withIdentifier: "editTodoViewController") as! editTodoViewController
+//                 editTodoViewController.todoTitle = title
+//                 editTodoViewController.todoMemo = memo
+//                 editTodoViewController.todoUser = user
+//                self.present(editTodoViewController,animated: true,completion: nil)
+//                 print("受け渡し完了")
+//             }
+//         })
+//     }
     
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
