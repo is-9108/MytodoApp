@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
+import RealmSwift
 
 
 class todoViewController: UIViewController {
@@ -21,12 +22,18 @@ class todoViewController: UIViewController {
     
     var ref:DatabaseReference!
     
+    var task:Task!
+    
+    let realm = try! Realm()
     
     var groupName = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
+        titleTextField.text = task.todoTitle
+        memoTextField.text = task.todoMemo
+        userNameTextField.text = task.todoUser
 
     }
     
@@ -42,6 +49,26 @@ class todoViewController: UIViewController {
         ]
         
         self.ref.child("\(groupName)").childByAutoId().setValue(todoData)
+        
+        self.ref.child("\(groupName)").observeSingleEvent(of: .value, with: { (snapshot) in
+            for todo in snapshot.children{
+                
+                if let snap = todo as? DataSnapshot{
+                    let td = snap.value! as! [String:String]
+                    print("title: \(td["title"]!)")
+                    try! self.realm.write{
+                        self.task.todoTitle = td["title"]!
+                        self.task.todoMemo = td["memo"]!
+                        self.task.todoUser = td["user"]!
+                        self.realm.add(self.task, update: .modified)
+                       // print("td task: \(self.task)")
+                    }
+                               
+                }
+            }
+
+        })
+       
         
         titleTextField.text = ""
         memoTextField.text = ""

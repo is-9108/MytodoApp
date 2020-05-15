@@ -340,6 +340,7 @@
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Xow-98-os3">
                                             <connections>
                                                 <action selector="add:" destination="h4o-Yx-6XW" id="Pjt-6k-RFg"/>
+                                                <segue destination="pQ8-Gs-Tm1" kind="show" id="0Pg-rb-OfR"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -376,6 +377,7 @@
                     <connections>
                         <outlet property="barItem" destination="hsL-Oc-PZt" id="5PR-UH-0H2"/>
                         <outlet property="tableView" destination="woV-7H-1mB" id="54w-Cx-Bds"/>
+                        <segue destination="pQ8-Gs-Tm1" kind="show" identifier="cellSegue" id="MKZ-ag-AaJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CpM-7E-fv0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -383,6 +385,9 @@
             <point key="canvasLocation" x="254" y="-316"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="MKZ-ag-AaJ"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="arrowshape.turn.up.left" catalog="system" width="128" height="106"/>
     </resources>
