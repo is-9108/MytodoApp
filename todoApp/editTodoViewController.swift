@@ -43,6 +43,7 @@ class editTodoViewController: UIViewController {
         ref = Database.database().reference()
         tableView.reloadData()
         print(taskArray)
+        print("groupName: \(groupName)")
     }
     
     
@@ -72,9 +73,7 @@ class editTodoViewController: UIViewController {
     @IBAction func add(_ sender: Any) {
         let todoViewController = self.storyboard?.instantiateViewController(withIdentifier: "todoViewController") as! todoViewController
         todoViewController.groupName = groupName
-        present(todoViewController,animated: true,completion: nil)
-        
-        
+        present(todoViewController,animated: true,completion: nil)  
     }
     
     @IBAction func back(_ sender: Any) {

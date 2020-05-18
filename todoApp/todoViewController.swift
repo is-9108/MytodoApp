@@ -31,10 +31,13 @@ class todoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
-        titleTextField.text = task.todoTitle
-        memoTextField.text = task.todoMemo
-        userNameTextField.text = task.todoUser
-
+        if task != nil{
+            titleTextField.text = task.todoTitle
+            memoTextField.text = task.todoMemo
+            userNameTextField.text = task.todoUser
+        }
+      //  inputTodo()
+        print("groupName: \(groupName)")
     }
     
     @IBAction func addButton(_ sender: Any) {
@@ -42,32 +45,35 @@ class todoViewController: UIViewController {
         let memo = memoTextField.text!
         let user = userNameTextField.text!
         
-        let todoData = [
-            "title" : title,
-            "memo" : memo,
-            "user" : user
-        ]
+//        let todoData = [
+//            "title" : title,
+//            "memo" : memo,
+//            "user" : user
+//        ]
+        let key = ref.child("posts").childByAutoId().key
+        let post = ["title": title,
+                    "memo": memo,
+                    "user": user]
+        let childUpdates = ["/\(groupName)/\(String(describing: key))": post]
+        ref.updateChildValues(childUpdates)
         
-        self.ref.child("\(groupName)").childByAutoId().setValue(todoData)
-        
-        self.ref.child("\(groupName)").observeSingleEvent(of: .value, with: { (snapshot) in
-            for todo in snapshot.children{
-                
-                if let snap = todo as? DataSnapshot{
-                    let td = snap.value! as! [String:String]
-                    print("title: \(td["title"]!)")
-                    try! self.realm.write{
-                        self.task.todoTitle = td["title"]!
-                        self.task.todoMemo = td["memo"]!
-                        self.task.todoUser = td["user"]!
-                        self.realm.add(self.task, update: .modified)
-                       // print("td task: \(self.task)")
-                    }
-                               
-                }
-            }
-
-        })
+//        self.ref.child("\(groupName)").observeSingleEvent(of: .value, with: { (snapshot) in
+//            for todo in snapshot.children{
+//
+//                if let snap = todo as? DataSnapshot{
+//                    let td = snap.value! as! [String:String]
+//                    print("title: \(td["title"]!)")
+//                    try! self.realm.write{
+//                        self.task.todoTitle = td["title"]!
+//                        self.task.todoMemo = td["memo"]!
+//                        self.task.todoUser = td["user"]!
+//                        self.realm.add(self.task, update: .modified)
+//                       // print("td task: \(self.task)")
+//                    }
+//                }
+//            }
+//
+//        })
        
         
         titleTextField.text = ""
@@ -75,6 +81,13 @@ class todoViewController: UIViewController {
         userNameTextField.text = ""
        
     }
+    
+//    func inputTodo(){
+//        self.ref.observe(DataEventType.childAdded, with: { (snapshot) -> Void in
+//            let postDict = snapshot.value as? [String : AnyObject] ?? [:]
+//            print(postDict)
+//        })
+//    }
     
 //    func inputTodo(){
 //         print("開始")
