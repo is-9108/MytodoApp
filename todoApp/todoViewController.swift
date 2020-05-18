@@ -28,6 +28,8 @@ class todoViewController: UIViewController {
     
     var groupName = ""
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
@@ -36,8 +38,8 @@ class todoViewController: UIViewController {
             memoTextField.text = task.todoMemo
             userNameTextField.text = task.todoUser
         }
-      //  inputTodo()
         print("groupName: \(groupName)")
+        inputTodo()
     }
     
     @IBAction func addButton(_ sender: Any) {
@@ -45,68 +47,29 @@ class todoViewController: UIViewController {
         let memo = memoTextField.text!
         let user = userNameTextField.text!
         
-//        let todoData = [
-//            "title" : title,
-//            "memo" : memo,
-//            "user" : user
-//        ]
-        let key = ref.child("posts").childByAutoId().key
-        let post = ["title": title,
-                    "memo": memo,
-                    "user": user]
-        let childUpdates = ["/\(groupName)/\(String(describing: key))": post]
-        ref.updateChildValues(childUpdates)
+        let todoData = [
+            "title" : title,
+            "memo" : memo,
+            "user" : user
+        ]
+
+        self.ref.child("\(groupName)").childByAutoId().setValue(todoData)
+        inputTodo()
         
-//        self.ref.child("\(groupName)").observeSingleEvent(of: .value, with: { (snapshot) in
-//            for todo in snapshot.children{
-//
-//                if let snap = todo as? DataSnapshot{
-//                    let td = snap.value! as! [String:String]
-//                    print("title: \(td["title"]!)")
-//                    try! self.realm.write{
-//                        self.task.todoTitle = td["title"]!
-//                        self.task.todoMemo = td["memo"]!
-//                        self.task.todoUser = td["user"]!
-//                        self.realm.add(self.task, update: .modified)
-//                       // print("td task: \(self.task)")
-//                    }
-//                }
-//            }
-//
-//        })
-       
-        
+            
         titleTextField.text = ""
         memoTextField.text = ""
         userNameTextField.text = ""
        
     }
     
-//    func inputTodo(){
-//        self.ref.observe(DataEventType.childAdded, with: { (snapshot) -> Void in
-//            let postDict = snapshot.value as? [String : AnyObject] ?? [:]
-//            print(postDict)
-//        })
-//    }
-    
-//    func inputTodo(){
-//         print("開始")
-// //        let ref:DatabaseReference? = nil
-//        self.ref.observe(DataEventType.childAdded, with: { (snapshot) -> Void in
-//             let postDict = snapshot.value as? [String : AnyObject] ?? [:]
-//             print(postDict)
-//
-//             if let title = postDict["title"] as? String,let memo = postDict["memo"] as? String,let user = postDict["user"] as? String{
-//                 let editTodoViewController = self.storyboard?.instantiateViewController(withIdentifier: "editTodoViewController") as! editTodoViewController
-//                 editTodoViewController.todoTitle = title
-//                 editTodoViewController.todoMemo = memo
-//                 editTodoViewController.todoUser = user
-//                self.present(editTodoViewController,animated: true,completion: nil)
-//                 print("受け渡し完了")
-//             }
-//         })
-//     }
-    
+    func inputTodo(){
+        self.ref.child("\(groupName)").observeSingleEvent(of: .value, with: { (snapshot) in
+            let snap = snapshot.value as! [String : AnyObject]
+            print("snap: \(snap.values)")
+        })
+    }
+
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }

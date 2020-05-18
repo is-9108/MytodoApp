@@ -46,7 +46,33 @@ class editTodoViewController: UIViewController {
         print("groupName: \(groupName)")
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print(taskArray)
+        tableView.reloadData()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print(taskArray)
+        tableView.reloadData()
+    }
     
+//    func inputTodo(){
+//        self.ref.child("\(groupName)").observeSingleEvent(of: .value, with: { (snapshot) in
+//          // Get user value
+//            let title = snapshot.value!["title"] as! String
+//            let memo = snapshot.value!["memo"] as! String
+//            let user = snapshot.value!["user"] as! String
+//            
+//            try! self.realm.write{
+//                
+//            }
+//
+//          // ...
+//          }) { (error) in
+//            print(error.localizedDescription)
+//        }
+//    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let todo = segue.destination as! todoViewController
@@ -54,15 +80,15 @@ class editTodoViewController: UIViewController {
         if segue.identifier == "cellSegue"{
             let indexPath = self.tableView.indexPathForSelectedRow
             todo.task = taskArray[indexPath!.row]
-        }else{
-            let task = Task()
-            
-            let allTasks = realm.objects(Task.self)
-            if allTasks.count != 0{
-                task.id = allTasks.max(ofProperty: "id")! + 1
-            }
-            todo.task = task
-        }
+        }//else{
+//            let task = Task()
+//
+//            let allTasks = realm.objects(Task.self)
+//            if allTasks.count != 0{
+//                task.id = allTasks.max(ofProperty: "id")! + 1
+//            }
+//            todo.task = task
+//        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -71,8 +97,15 @@ class editTodoViewController: UIViewController {
     }
       
     @IBAction func add(_ sender: Any) {
+        let task = Task()
+        
+        let allTasks = realm.objects(Task.self)
+        if allTasks.count != 0{
+            task.id = allTasks.max(ofProperty: "id")! + 1
+        }
         let todoViewController = self.storyboard?.instantiateViewController(withIdentifier: "todoViewController") as! todoViewController
         todoViewController.groupName = groupName
+        todoViewController.task = task
         present(todoViewController,animated: true,completion: nil)  
     }
     
