@@ -70,18 +70,6 @@ class todoViewController: UIViewController {
                 print("title:\(title)")
                 print("memo: \(memo)")
                 print("user: \(user)")
-                
-                let task = Task()
-                let allTasks = self.realm.objects(Task.self)
-                if allTasks.count != 0{
-                    task.id = allTasks.max(ofProperty: "id")! + 1
-                }
-                try! self.realm.write{
-                    self.task.todoTitle = title
-                    self.task.todoMemo = memo
-                    self.task.todoUser = user
-                    self.realm.add(self.task.self, update: .modified)
-                }
             }
         })
     }

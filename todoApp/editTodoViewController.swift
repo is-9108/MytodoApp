@@ -12,7 +12,7 @@ import RealmSwift
 
 class editTodoViewController: UIViewController {
     
-
+//getDocumentを使えば成功しそう？
     @IBOutlet weak var barItem: UINavigationBar!
     
     @IBOutlet weak var tableView: UITableView!
@@ -111,15 +111,15 @@ extension editTodoViewController: UITableViewDelegate{
 
 extension editTodoViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return taskArray.count
+        return titleList.count
     }
     
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let task = taskArray[indexPath.row]
-        cell.textLabel?.text = task.todoTitle
+        
+        cell.textLabel?.text = titleList[indexPath.row]
         
         return cell
     }
