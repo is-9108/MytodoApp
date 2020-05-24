@@ -26,9 +26,9 @@ class todoViewController: UIViewController {
     
     let realm = try! Realm()
     
+    var taskArray = try! Realm().objects(Task.self)
+    
     var groupName = ""
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,8 +55,6 @@ class todoViewController: UIViewController {
 
         self.ref.child("\(groupName)").childByAutoId().setValue(todoData)
         inputTodo()
-        
-            
         titleTextField.text = ""
         memoTextField.text = ""
         userNameTextField.text = ""
@@ -64,9 +62,27 @@ class todoViewController: UIViewController {
     }
     
     func inputTodo(){
-        self.ref.child("\(groupName)").observeSingleEvent(of: .value, with: { (snapshot) in
-            let snap = snapshot.value as! [String : AnyObject]
-            print("snap: \(snap.values)")
+        self.ref.child("\(groupName)").observe(DataEventType.childAdded,with:{ (snapshot) -> Void in
+            let todoData = snapshot.value as? [String : AnyObject] ?? [:]
+            print("todoData: \(todoData)")
+            
+            if let title = todoData["title"] as? String,let memo = todoData["memo"] as? String,let user = todoData["user"] as? String{
+                print("title:\(title)")
+                print("memo: \(memo)")
+                print("user: \(user)")
+                
+                let task = Task()
+                let allTasks = self.realm.objects(Task.self)
+                if allTasks.count != 0{
+                    task.id = allTasks.max(ofProperty: "id")! + 1
+                }
+                try! self.realm.write{
+                    self.task.todoTitle = title
+                    self.task.todoMemo = memo
+                    self.task.todoUser = user
+                    self.realm.add(self.task.self, update: .modified)
+                }
+            }
         })
     }
 

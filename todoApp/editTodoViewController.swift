@@ -27,69 +27,53 @@ class editTodoViewController: UIViewController {
     
     var todoUser = ""
     
-
-    
-    let realm = try! Realm()
+    var titleList:[String] = []
     
     var task:Task!
     
     var taskArray = try! Realm().objects(Task.self)
+
+    override func loadView() {
+        super.loadView()
+        print("loadView")
+        ref = Database.database().reference()
+        inputTodo()
+        tableView.reloadData()
+    }
        
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("viewDidLoad")
         tableView.delegate = self
         tableView.dataSource = self
-        ref = Database.database().reference()
-        tableView.reloadData()
-        print(taskArray)
         print("groupName: \(groupName)")
+        print(titleList)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print(taskArray)
         tableView.reloadData()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print(taskArray)
         tableView.reloadData()
     }
     
-//    func inputTodo(){
-//        self.ref.child("\(groupName)").observeSingleEvent(of: .value, with: { (snapshot) in
-//          // Get user value
-//            let title = snapshot.value!["title"] as! String
-//            let memo = snapshot.value!["memo"] as! String
-//            let user = snapshot.value!["user"] as! String
-//            
-//            try! self.realm.write{
-//                
-//            }
-//
-//          // ...
-//          }) { (error) in
-//            print(error.localizedDescription)
-//        }
-//    }
+     func inputTodo(){
+            self.ref.child("\(groupName)").observe(DataEventType.childAdded,with:{ (snapshot) -> Void in
+                let todoData = snapshot.value as? [String : AnyObject] ?? [:]
+                print("todoData: \(todoData)")
+                
+                if let title = todoData["title"] as? String,let memo = todoData["memo"] as? String,let user = todoData["user"] as? String{
+                    print("title:\(title)")
+                    print("memo: \(memo)")
+                    print("user: \(user)")
+                    
+                    self.titleList.append(title)
+                }
+            })
+        }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let todo = segue.destination as! todoViewController
-        
-        if segue.identifier == "cellSegue"{
-            let indexPath = self.tableView.indexPathForSelectedRow
-            todo.task = taskArray[indexPath!.row]
-        }//else{
-//            let task = Task()
-//
-//            let allTasks = realm.objects(Task.self)
-//            if allTasks.count != 0{
-//                task.id = allTasks.max(ofProperty: "id")! + 1
-//            }
-//            todo.task = task
-//        }
-    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -97,16 +81,10 @@ class editTodoViewController: UIViewController {
     }
       
     @IBAction func add(_ sender: Any) {
-        let task = Task()
-        
-        let allTasks = realm.objects(Task.self)
-        if allTasks.count != 0{
-            task.id = allTasks.max(ofProperty: "id")! + 1
-        }
+
         let todoViewController = self.storyboard?.instantiateViewController(withIdentifier: "todoViewController") as! todoViewController
         todoViewController.groupName = groupName
-        todoViewController.task = task
-        present(todoViewController,animated: true,completion: nil)  
+        present(todoViewController,animated: true,completion: nil)
     }
     
     @IBAction func back(_ sender: Any) {
@@ -122,7 +100,6 @@ extension editTodoViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
-            try! realm.delete(self.taskArray[indexPath.row])
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
@@ -141,11 +118,9 @@ extension editTodoViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        
         let task = taskArray[indexPath.row]
-        
         cell.textLabel?.text = task.todoTitle
-        print("title\(task.todoTitle)")
+        
         return cell
     }
     
