@@ -60,19 +60,19 @@ class editTodoViewController: UIViewController {
     }
     
      func inputTodo(){
-            self.ref.child("\(groupName)").observe(DataEventType.childAdded,with:{ (snapshot) -> Void in
+        self.ref.child("\(groupName)").observe(DataEventType.childAdded,with:{ (snapshot) -> Void in
                 let todoData = snapshot.value as? [String : AnyObject] ?? [:]
                 print("todoData: \(todoData)")
-                
+
                 if let title = todoData["title"] as? String,let memo = todoData["memo"] as? String,let user = todoData["user"] as? String{
                     print("title:\(title)")
                     print("memo: \(memo)")
                     print("user: \(user)")
-                    
+
                     self.titleList.append(title)
                 }
             })
-        }
+    }
     
 
     override func viewWillAppear(_ animated: Bool) {
@@ -82,9 +82,23 @@ class editTodoViewController: UIViewController {
       
     @IBAction func add(_ sender: Any) {
 
-        let todoViewController = self.storyboard?.instantiateViewController(withIdentifier: "todoViewController") as! todoViewController
-        todoViewController.groupName = groupName
-        present(todoViewController,animated: true,completion: nil)
+//        let todoViewController = self.storyboard?.instantiateViewController(withIdentifier: "todoViewController") as! todoViewController
+//        todoViewController.groupName = groupName
+//        present(todoViewController,animated: true,completion: nil)
+        
+        let alert = UIAlertController(title: "Title", message: "message", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: {(textField:UITextField) -> Void in
+            textField.placeholder = "placeholder"
+        })
+        alert.addAction(UIAlertAction(title: "ok", style: .default, handler: {(action:UIAlertAction) -> Void in
+            let textField = alert.textFields! [0] as UITextField
+            
+            print("Text field: \((textField.text)!)")
+        }))
+        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: {(action:UIAlertAction) -> Void in
+            print("Text field: cancel")
+        }))
+        self.present(alert,animated: true,completion: nil)
     }
     
     @IBAction func back(_ sender: Any) {
@@ -100,13 +114,11 @@ extension editTodoViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
+            let title = titleList[indexPath.row]
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
-    
-    func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "cellSegue", sender: nil)
-    }
+
 }
 
 extension editTodoViewController: UITableViewDataSource{
