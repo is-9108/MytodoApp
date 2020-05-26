@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 import RealmSwift
+import UserNotifications
 
 
 class todoViewController: UIViewController {
@@ -46,7 +47,7 @@ class todoViewController: UIViewController {
     }
     @IBAction func addButton(_ sender: Any) {
         let title = titleTextField.text!
-        let alertTime = "\(datePicker.date)"
+        let alertTime = datePicker.date
         let date = DateFormatter()
         date.dateFormat = "MM/dd HH:mm"
         let deadline = date.string(from: datePicker.date)
@@ -54,15 +55,45 @@ class todoViewController: UIViewController {
         
         let todoData = [
             "title" : title,
-            "alertTime" : alertTime,
             "time" : deadline
         ]
 
         self.ref.child("\(groupName)").childByAutoId().setValue(todoData)
         inputTodo()
+        setNotification(title: title, alertTime: alertTime)
         titleTextField.text = ""
 
        
+    }
+    
+    func setNotification(title:String,alertTime:Date){
+        print("title: \(title)")
+        print("alertTime: \(alertTime)")
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = "明日が\(title)の期限です！"
+        content.sound = UNNotificationSound.default
+        
+        let calendar = Calendar.current
+        let timer:Date = Calendar.current.date(byAdding: .day, value: -1, to: alertTime)!
+        print(timer)
+        let dateComponents = calendar.dateComponents([.year,.month,.day,.hour,.minute], from: timer)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+
+
+        let request = UNNotificationRequest(identifier: "\(group.self)", content: content, trigger: trigger)
+        
+        let center = UNUserNotificationCenter.current()
+        center.add(request) {(error) in
+            print(error ?? "ローカル通知登録　OK")
+        }
+        center.getPendingNotificationRequests{(requests: [UNNotificationRequest]) in
+            for request in requests {
+                print("--------------")
+                print(request)
+                print("--------------")
+            }
+        }
     }
     
     func inputTodo(){
