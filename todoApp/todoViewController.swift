@@ -15,10 +15,8 @@ import RealmSwift
 class todoViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
-    
-    @IBOutlet weak var memoTextField: UITextView!
-    
-    @IBOutlet weak var userNameTextField: UITextField!
+        
+    @IBOutlet weak var datePicker: UIDatePicker!
     
     var ref:DatabaseReference!
     
@@ -35,29 +33,35 @@ class todoViewController: UIViewController {
         ref = Database.database().reference()
         if task != nil{
             titleTextField.text = task.todoTitle
-            memoTextField.text = task.todoMemo
-            userNameTextField.text = task.todoUser
         }
         print("groupName: \(groupName)")
         inputTodo()
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print(datePicker.date)
+        let date = DateFormatter()
+        date.dateFormat = "MM/dd HH:mm"
+        print("\(date.string(from: datePicker.date))")
+    }
     @IBAction func addButton(_ sender: Any) {
         let title = titleTextField.text!
-        let memo = memoTextField.text!
-        let user = userNameTextField.text!
+        let alertTime = "\(datePicker.date)"
+        let date = DateFormatter()
+        date.dateFormat = "MM/dd HH:mm"
+        let deadline = date.string(from: datePicker.date)
+
         
         let todoData = [
             "title" : title,
-            "memo" : memo,
-            "user" : user
+            "alertTime" : alertTime,
+            "time" : deadline
         ]
 
         self.ref.child("\(groupName)").childByAutoId().setValue(todoData)
         inputTodo()
         titleTextField.text = ""
-        memoTextField.text = ""
-        userNameTextField.text = ""
+
        
     }
     
@@ -66,10 +70,10 @@ class todoViewController: UIViewController {
             let todoData = snapshot.value as? [String : AnyObject] ?? [:]
             print("todoData: \(todoData)")
             
-            if let title = todoData["title"] as? String,let memo = todoData["memo"] as? String,let user = todoData["user"] as? String{
+            if let title = todoData["title"] as? String,let alertTime = todoData["alertTime"] as? String,let deadline = todoData["time"] as? String{
                 print("title:\(title)")
-                print("memo: \(memo)")
-                print("user: \(user)")
+                print("memo: \(alertTime)")
+                print("user: \(deadline)")
             }
         })
     }
