@@ -11,8 +11,7 @@ import Firebase
 import RealmSwift
 
 class editTodoViewController: UIViewController {
-    
-//getDocumentを使えば成功しそう？
+
     @IBOutlet weak var barItem: UINavigationBar!
     
     @IBOutlet weak var tableView: UITableView!
