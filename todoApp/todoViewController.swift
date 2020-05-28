@@ -25,8 +25,6 @@ class todoViewController: UIViewController {
     
     let realm = try! Realm()
     
-    var taskArray = try! Realm().objects(Task.self)
-    
     var groupName = ""
     
     override func viewDidLoad() {
@@ -37,14 +35,15 @@ class todoViewController: UIViewController {
         }
         print("groupName: \(groupName)")
         inputTodo()
+        
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        print(datePicker.date)
-        let date = DateFormatter()
-        date.dateFormat = "MM/dd HH:mm"
-        print("\(date.string(from: datePicker.date))")
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        print(datePicker.date)
+//        let date = DateFormatter()
+//        date.dateFormat = "MM/dd HH:mm"
+//        print("\(date.string(from: datePicker.date))")
+//    }
     @IBAction func addButton(_ sender: Any) {
         let title = titleTextField.text!
         let alertTime = datePicker.date
@@ -101,10 +100,15 @@ class todoViewController: UIViewController {
             let todoData = snapshot.value as? [String : AnyObject] ?? [:]
             print("todoData: \(todoData)")
             
-            if let title = todoData["title"] as? String,let alertTime = todoData["alertTime"] as? String,let deadline = todoData["time"] as? String{
-                print("title:\(title)")
-                print("memo: \(alertTime)")
-                print("user: \(deadline)")
+            if let todoTitle = todoData["title"] as? String,let todoTime = todoData["time"] as? String{
+                print("title:\(todoTitle)")
+                print("memo: \(todoTime)")
+                
+                try! self.realm.write{
+                    self.task.todoTitle = todoTitle
+                    self.task.todoTime = todoTime
+                    self.realm.add(self.task,update: .modified)
+                }
             }
         })
     }

@@ -21,15 +21,7 @@ class editTodoViewController: UIViewController {
     
     var ref:DatabaseReference!
     
-    var todoTitle = ""
-    
-    var todoMemo = ""
-    
-    var todoUser = ""
-    
-    var titleList:[String] = []
-    
-    var task:Task!
+    let realm = try! Realm()
     
     var taskArray = try! Realm().objects(Task.self)
 
@@ -47,11 +39,11 @@ class editTodoViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         print("groupName: \(groupName)")
-        print(titleList)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        print(taskArray)
         tableView.reloadData()
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -64,12 +56,9 @@ class editTodoViewController: UIViewController {
                 let todoData = snapshot.value as? [String : AnyObject] ?? [:]
                 print("todoData: \(todoData)")
 
-                if let title = todoData["title"] as? String,let memo = todoData["memo"] as? String,let user = todoData["user"] as? String{
+                if let title = todoData["title"] as? String,let time = todoData["time"] as? String{
                     print("title:\(title)")
-                    print("memo: \(memo)")
-                    print("user: \(user)")
-
-                    self.titleList.append(title)
+                    print("memo: \(time)")
                 }
             })
     }
@@ -79,29 +68,39 @@ class editTodoViewController: UIViewController {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
-      
-    @IBAction func add(_ sender: Any) {
-
-        let todoViewController = self.storyboard?.instantiateViewController(withIdentifier: "todoViewController") as! todoViewController
-        todoViewController.groupName = groupName
-        present(todoViewController,animated: true,completion: nil)
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let todoViewController:todoViewController = segue.destination as! todoViewController
         
-//        let alert = UIAlertController(title: "Title", message: "message", preferredStyle: .alert)
-//        alert.addTextField(configurationHandler: {(textField:UITextField) -> Void in
-//            textField.placeholder = "placeholder"
-//        })
-//
-//        alert.addAction(UIAlertAction(title: "ok", style: .default, handler: {(action:UIAlertAction) -> Void in
-//            let textField = alert.textFields! [0] as UITextField
-//            //okボタンを押した時の処理
-//
-//            print("Text field: \((textField.text)!)")
-//        }))
-//        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: {(action:UIAlertAction) -> Void in
-//            print("Text field: cancel")
-//        }))
-//        self.present(alert,animated: true,completion: nil)
+        if segue.identifier == "cellSegue"{
+            let indexPath = self.tableView.indexPathForSelectedRow
+            todoViewController.task = taskArray[indexPath!.row]
+        }else{
+            let task = Task()
+            let allTask = realm.objects(Task.self)
+            if allTask.count != 0{
+                task.id = allTask.max(ofProperty: "id")! + 1
+            }
+            todoViewController.task = task
+            todoViewController.groupName = groupName
+        }
     }
+      
+//    @IBAction func add(_ sender: Any) {
+//
+//        let todoViewController = self.storyboard?.instantiateViewController(withIdentifier: "todoViewController") as! todoViewController
+//        todoViewController.groupName = groupName
+//
+//        let task = Task()
+//        let allTasks = realm.objects(Task.self)
+//        if allTasks.count != 0{
+//            task.id = allTasks.max(ofProperty: "id")! + 1
+//        }
+//        todoViewController.task = task
+//
+//        present(todoViewController,animated: true,completion: nil)
+//
+//    }
     
     @IBAction func back(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -110,14 +109,20 @@ class editTodoViewController: UIViewController {
 }
 
 extension editTodoViewController: UITableViewDelegate{
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "cellSegue", sender: nil)
+    }
+    
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
-//            let title = titleList[indexPath.row]
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            try! realm.write{
+                self.realm.delete(self.taskArray[indexPath.row])
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
         }
     }
 
@@ -125,16 +130,16 @@ extension editTodoViewController: UITableViewDelegate{
 
 extension editTodoViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titleList.count
+        return taskArray.count
     }
     
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        
-        cell.textLabel?.text = titleList[indexPath.row]
-        
+        let task = taskArray[indexPath.row]
+        cell.textLabel?.text = task.todoTitle
+        cell.detailTextLabel?.text = task.todoTime
         return cell
     }
     

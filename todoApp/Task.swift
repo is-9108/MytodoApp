@@ -14,9 +14,7 @@ class Task:Object {
     
     @objc dynamic var todoTitle = ""
     
-    @objc dynamic var todoMemo = ""
-    
-    @objc dynamic var todoUser = ""
+    @objc dynamic var todoTime = ""
     
     override static func primaryKey() -> String? {
         return "id"
