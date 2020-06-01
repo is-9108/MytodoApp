@@ -23,6 +23,9 @@ class editTodoViewController: UIViewController {
     let realm = try! Realm()
     
     var taskArray = try! Realm().objects(Task.self)
+    
+    var titleList:[String] = []
+    var timeList:[String] = []
 
     override func loadView() {
         super.loadView()
@@ -38,13 +41,14 @@ class editTodoViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         print("groupName: \(groupName)")
+        
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        print(taskArray)
-        tableView.reloadData()
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        print(taskArray)
+//        tableView.reloadData()
+//    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
@@ -55,18 +59,20 @@ class editTodoViewController: UIViewController {
                 let todoData = snapshot.value as? [String : AnyObject] ?? [:]
                 print("todoData: \(todoData)")
 
-                if let title = todoData["title"] as? String,let time = todoData["time"] as? String{
+                if let title = todoData["title"] as? String,let alertTime = todoData["time"] as? String{
                     print("title:\(title)")
-                    print("memo: \(time)")
+                    print("time: \(alertTime)")
+                    self.titleList.append(title)
+                    self.timeList.append(alertTime)
                 }
             })
     }
     
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        tableView.reloadData()
+//    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let todoViewController:todoViewController = segue.destination as! todoViewController
@@ -74,6 +80,8 @@ class editTodoViewController: UIViewController {
         if segue.identifier == "cellSegue"{
             let indexPath = self.tableView.indexPathForSelectedRow
             todoViewController.task = taskArray[indexPath!.row]
+            todoViewController.todoTitle = titleList[indexPath!.row]
+            todoViewController.todoTime = timeList[indexPath!.row]
         }else{
             let task = Task()
             let allTask = realm.objects(Task.self)
@@ -102,6 +110,7 @@ class editTodoViewController: UIViewController {
 //    }
     
     @IBAction func back(_ sender: Any) {
+        print(titleList)
         dismiss(animated: true, completion: nil)
     }
     
@@ -119,9 +128,11 @@ extension editTodoViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
             try! realm.write{
-                self.realm.delete(self.taskArray[indexPath.row])
-                tableView.deleteRows(at: [indexPath], with: .fade)
+//                self.realm.delete(self.titleList[indexPath.row])
+//                tableView.deleteRows(at: [indexPath], with: .fade)
             }
+            titleList.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
 
@@ -129,16 +140,15 @@ extension editTodoViewController: UITableViewDelegate{
 
 extension editTodoViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return taskArray.count
+        return titleList.count
     }
     
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let task = taskArray[indexPath.row]
-        cell.textLabel?.text = task.todoTitle
-        cell.detailTextLabel?.text = task.todoTime
+        cell.textLabel?.text = titleList[indexPath.row]
+        cell.detailTextLabel?.text = timeList[indexPath.row]
         return cell
     }
     

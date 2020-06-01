@@ -27,6 +27,9 @@ class todoViewController: UIViewController {
     
     var groupName = ""
     
+    var todoTitle:String = ""
+    var todoTime:String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
@@ -35,6 +38,7 @@ class todoViewController: UIViewController {
         }
         print("groupName: \(groupName)")
         inputTodo()
+        titleTextField.text = task.todoTitle
         
     }
 //    override func viewWillDisappear(_ animated: Bool) {
@@ -54,15 +58,14 @@ class todoViewController: UIViewController {
         
         let todoData = [
             "title" : title,
-            "time" : deadline
-        ]
+            "time" : deadline,
+            "date" : "\(alertTime)"
+            ]
 
         self.ref.child("\(groupName)").childByAutoId().setValue(todoData)
         inputTodo()
         setNotification(title: title, alertTime: alertTime)
-        titleTextField.text = ""
-
-       
+        titleTextField.text = ""   
     }
     
     func setNotification(title:String,alertTime:Date){
