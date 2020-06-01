@@ -6,17 +6,17 @@
 //  Copyright © 2020 is. All rights reserved.
 //
 
-import Foundation
-import RealmSwift
-class Task:Object {
-    
-    @objc dynamic var id = 0
-    
-    @objc dynamic var todoTitle = ""
-    
-    @objc dynamic var todoTime = ""
-    
-    override static func primaryKey() -> String? {
-        return "id"
-    }
-}
+//import Foundation
+//import RealmSwift
+//class Task:Object {
+//    
+//    @objc dynamic var id = 0
+//    
+//    @objc dynamic var todoTitle = ""
+//    
+//    @objc dynamic var todoTime = ""
+//    
+//    override static func primaryKey() -> String? {
+//        return "id"
+//    }
+//}

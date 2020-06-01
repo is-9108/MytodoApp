@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
-import RealmSwift
+//import RealmSwift
 import UserNotifications
 
 
@@ -21,9 +21,9 @@ class todoViewController: UIViewController {
     
     var ref:DatabaseReference!
     
-    var task:Task!
-    
-    let realm = try! Realm()
+//    var task:Task!
+//
+//    let realm = try! Realm()
     
     var groupName = ""
     
@@ -33,12 +33,12 @@ class todoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
-        if task != nil{
-            titleTextField.text = task.todoTitle
-        }
+//        if task != nil{
+//            titleTextField.text = task.todoTitle
+//        }
         print("groupName: \(groupName)")
         inputTodo()
-        titleTextField.text = task.todoTitle
+//        titleTextField.text = task.todoTitle
         
     }
 //    override func viewWillDisappear(_ animated: Bool) {
@@ -107,11 +107,11 @@ class todoViewController: UIViewController {
                 print("title:\(todoTitle)")
                 print("memo: \(todoTime)")
                 
-                try! self.realm.write{
-                    self.task.todoTitle = todoTitle
-                    self.task.todoTime = todoTime
-                    self.realm.add(self.task,update: .modified)
-                }
+//                try! self.realm.write{
+//                    self.task.todoTitle = todoTitle
+//                    self.task.todoTime = todoTime
+//                    self.realm.add(self.task,update: .modified)
+//                }
             }
         })
     }

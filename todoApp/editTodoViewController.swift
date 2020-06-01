@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-import RealmSwift
+//import RealmSwift
 
 class editTodoViewController: UIViewController {
 
@@ -20,9 +20,9 @@ class editTodoViewController: UIViewController {
     
     var ref:DatabaseReference!
     
-    let realm = try! Realm()
-    
-    var taskArray = try! Realm().objects(Task.self)
+//    let realm = try! Realm()
+//
+//    var taskArray = try! Realm().objects(Task.self)
     
     var titleList:[String] = []
     var timeList:[String] = []
@@ -74,40 +74,40 @@ class editTodoViewController: UIViewController {
 //        tableView.reloadData()
 //    }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let todoViewController:todoViewController = segue.destination as! todoViewController
-        
-        if segue.identifier == "cellSegue"{
-            let indexPath = self.tableView.indexPathForSelectedRow
-            todoViewController.task = taskArray[indexPath!.row]
-            todoViewController.todoTitle = titleList[indexPath!.row]
-            todoViewController.todoTime = timeList[indexPath!.row]
-        }else{
-            let task = Task()
-            let allTask = realm.objects(Task.self)
-            if allTask.count != 0{
-                task.id = allTask.max(ofProperty: "id")! + 1
-            }
-            todoViewController.task = task
-            todoViewController.groupName = groupName
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        let todoViewController:todoViewController = segue.destination as! todoViewController
+//
+//        if segue.identifier == "cellSegue"{
+//            let indexPath = self.tableView.indexPathForSelectedRow
+//            todoViewController.task = taskArray[indexPath!.row]
+//            todoViewController.todoTitle = titleList[indexPath!.row]
+//            todoViewController.todoTime = timeList[indexPath!.row]
+//        }else{
+//            let task = Task()
+//            let allTask = realm.objects(Task.self)
+//            if allTask.count != 0{
+//                task.id = allTask.max(ofProperty: "id")! + 1
+//            }
+//            todoViewController.task = task
+//            todoViewController.groupName = groupName
+//        }
+//    }
       
-//    @IBAction func add(_ sender: Any) {
-//
-//        let todoViewController = self.storyboard?.instantiateViewController(withIdentifier: "todoViewController") as! todoViewController
-//        todoViewController.groupName = groupName
-//
+    @IBAction func add(_ sender: Any) {
+
+        let todoViewController = self.storyboard?.instantiateViewController(withIdentifier: "todoViewController") as! todoViewController
+        todoViewController.groupName = groupName
+
 //        let task = Task()
 //        let allTasks = realm.objects(Task.self)
 //        if allTasks.count != 0{
 //            task.id = allTasks.max(ofProperty: "id")! + 1
 //        }
 //        todoViewController.task = task
-//
-//        present(todoViewController,animated: true,completion: nil)
-//
-//    }
+
+        present(todoViewController,animated: true,completion: nil)
+
+    }
     
     @IBAction func back(_ sender: Any) {
         print(titleList)
@@ -127,10 +127,10 @@ extension editTodoViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
-            try! realm.write{
+//            try! realm.write{
 //                self.realm.delete(self.titleList[indexPath.row])
 //                tableView.deleteRows(at: [indexPath], with: .fade)
-            }
+//            }
             titleList.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
