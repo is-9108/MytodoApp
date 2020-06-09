@@ -18,7 +18,7 @@ class editTodoViewController: UIViewController {
     
     var groupName = ""
     
-    var ref:DatabaseReference!
+    var ref:DocumentReference? = nil
     
 //    let realm = try! Realm()
 //
@@ -26,12 +26,14 @@ class editTodoViewController: UIViewController {
     
     var titleList:[String] = []
     var timeList:[String] = []
+    var todoCount = 0
 
     override func loadView() {
         super.loadView()
         print("loadView")
-        ref = Database.database().reference()
-        inputTodo()
+//        ref = Database.database().reference()
+//        inputTodo()
+        doc()
         tableView.reloadData()
     }
        
@@ -44,28 +46,42 @@ class editTodoViewController: UIViewController {
         
     }
     
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        print(taskArray)
-//        tableView.reloadData()
-//    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
     }
     
-     func inputTodo(){
-        self.ref.child("\(groupName)").observe(DataEventType.childAdded,with:{ (snapshot) -> Void in
-                let todoData = snapshot.value as? [String : AnyObject] ?? [:]
-                print("todoData: \(todoData)")
-
-                if let title = todoData["title"] as? String,let alertTime = todoData["time"] as? String{
-                    print("title:\(title)")
-                    print("time: \(alertTime)")
-                    self.titleList.append(title)
-                    self.timeList.append(alertTime)
+//     func inputTodo(){
+//        self.ref.child("\(groupName)").observe(DataEventType.childAdded,with:{ (snapshot) -> Void in
+//                let todoData = snapshot.value as? [String : AnyObject] ?? [:]
+//                print("todoData: \(todoData)")
+//
+//                if let title = todoData["title"] as? String,let alertTime = todoData["time"] as? String{
+//                    print("title:\(title)")
+//                    print("time: \(alertTime)")
+//                    self.titleList.append(title)
+//                    self.timeList.append(alertTime)
+//                }
+//            })
+//    }
+    
+    func doc(){
+        let db = Firestore.firestore()
+        
+        db.collection("\(groupName)").getDocuments(){ (QuerySnapshot,err) in
+            if let err = err{
+                print(err.localizedDescription)
+            }else{
+                for document in QuerySnapshot!.documents{
+                    print("\(document.documentID) => \(document.data())")
+                    self.titleList.append(document["title"] as! String)
+                    self.timeList.append(document["time"] as! String)
+                    print(time)
+                    self.todoCount += 1
                 }
-            })
+            }
+        }
     }
     
 
@@ -131,7 +147,6 @@ extension editTodoViewController: UITableViewDelegate{
 //                self.realm.delete(self.titleList[indexPath.row])
 //                tableView.deleteRows(at: [indexPath], with: .fade)
 //            }
-            titleList.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
@@ -140,13 +155,29 @@ extension editTodoViewController: UITableViewDelegate{
 
 extension editTodoViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titleList.count
+        return todoCount
     }
     
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let db = Firestore.firestore()
+//
+//        db.collection("\(groupName)").getDocuments(){ (QuerySnapshot,err) in
+//            if let err = err{
+//                print(err.localizedDescription)
+//            }else{
+//                for document in QuerySnapshot!.documents{
+//                    print("\(document.documentID) => \(document.data())")
+//                    let time = document["time"] as! String
+//                    let title = document["title"] as! String
+//                    self.titleList.append(document["title"] as! String)
+//                    self.timeList.append(document["tile"] as! String)
+//                    self.todoCount += 1
+//                }
+//            }
+//        }
         cell.textLabel?.text = titleList[indexPath.row]
         cell.detailTextLabel?.text = timeList[indexPath.row]
         return cell

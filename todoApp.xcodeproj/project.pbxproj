@@ -19,7 +19,6 @@
 		E64C4A5C2465440400454C97 /* editTodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64C4A5B2465440400454C97 /* editTodoViewController.swift */; };
 		E64C4A5E2465466800454C97 /* signInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64C4A5D2465466800454C97 /* signInViewController.swift */; };
 		E64C4A602465484500454C97 /* todoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64C4A5F2465484500454C97 /* todoViewController.swift */; };
-		E64DE387246EAB5800A88A7F /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64DE386246EAB5800A88A7F /* Task.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +38,6 @@
 		E64C4A5B2465440400454C97 /* editTodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editTodoViewController.swift; sourceTree = "<group>"; };
 		E64C4A5D2465466800454C97 /* signInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = signInViewController.swift; sourceTree = "<group>"; };
 		E64C4A5F2465484500454C97 /* todoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = todoViewController.swift; sourceTree = "<group>"; };
-		E64DE386246EAB5800A88A7F /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +95,6 @@
 				E64C4A57246543D900454C97 /* loginViewController.swift */,
 				E64C4A59246543F100454C97 /* creatTodoViewController.swift */,
 				E64C4A5B2465440400454C97 /* editTodoViewController.swift */,
-				E64DE386246EAB5800A88A7F /* Task.swift */,
 				E64C4A472465408B00454C97 /* Main.storyboard */,
 				E64C4A5F2465484500454C97 /* todoViewController.swift */,
 				E64C4A5D2465466800454C97 /* signInViewController.swift */,
@@ -120,7 +117,7 @@
 				E64C4A3A2465408B00454C97 /* Sources */,
 				E64C4A3B2465408B00454C97 /* Frameworks */,
 				E64C4A3C2465408B00454C97 /* Resources */,
-				6957C10FE1A1FEE5954D3CF4 /* [CP] Embed Pods Frameworks */,
+				E9FB487C334F51EA2D75E53C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -201,7 +198,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6957C10FE1A1FEE5954D3CF4 /* [CP] Embed Pods Frameworks */ = {
+		E9FB487C334F51EA2D75E53C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -225,7 +222,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E64DE387246EAB5800A88A7F /* Task.swift in Sources */,
 				E64C4A5C2465440400454C97 /* editTodoViewController.swift in Sources */,
 				E64C4A5A246543F100454C97 /* creatTodoViewController.swift in Sources */,
 				E64C4A422465408B00454C97 /* AppDelegate.swift in Sources */,

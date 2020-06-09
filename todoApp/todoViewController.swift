@@ -19,7 +19,9 @@ class todoViewController: UIViewController {
         
     @IBOutlet weak var datePicker: UIDatePicker!
     
-    var ref:DatabaseReference!
+    var ref:DocumentReference? = nil
+    
+    let db = Firestore.firestore()
     
 //    var task:Task!
 //
@@ -32,12 +34,12 @@ class todoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        ref = Database.database().reference()
+//        ref = Database.database().reference()
 //        if task != nil{
 //            titleTextField.text = task.todoTitle
 //        }
         print("groupName: \(groupName)")
-        inputTodo()
+//        inputTodo()
 //        titleTextField.text = task.todoTitle
         
     }
@@ -54,18 +56,20 @@ class todoViewController: UIViewController {
         let date = DateFormatter()
         date.dateFormat = "MM/dd HH:mm"
         let deadline = date.string(from: datePicker.date)
-
         
         let todoData = [
             "title" : title,
             "time" : deadline,
             "date" : "\(alertTime)"
             ]
+        
+        ref = db.collection("\(groupName)").addDocument(data: todoData)
 
-        self.ref.child("\(groupName)").childByAutoId().setValue(todoData)
-        inputTodo()
+//        self.ref.child("\(groupName)").childByAutoId().setValue(todoData)
+//        inputTodo()
         setNotification(title: title, alertTime: alertTime)
-        titleTextField.text = ""   
+        titleTextField.text = ""
+        
     }
     
     func setNotification(title:String,alertTime:Date){
@@ -98,23 +102,23 @@ class todoViewController: UIViewController {
         }
     }
     
-    func inputTodo(){
-        self.ref.child("\(groupName)").observe(DataEventType.childAdded,with:{ (snapshot) -> Void in
-            let todoData = snapshot.value as? [String : AnyObject] ?? [:]
-            print("todoData: \(todoData)")
-            
-            if let todoTitle = todoData["title"] as? String,let todoTime = todoData["time"] as? String{
-                print("title:\(todoTitle)")
-                print("memo: \(todoTime)")
-                
+//    func inputTodo(){
+//        self.ref.child("\(groupName)").observe(DataEventType.childAdded,with:{ (snapshot) -> Void in
+//            let todoData = snapshot.value as? [String : AnyObject] ?? [:]
+//            print("todoData: \(todoData)")
+//
+//            if let todoTitle = todoData["title"] as? String,let todoTime = todoData["time"] as? String{
+//                print("title:\(todoTitle)")
+//                print("memo: \(todoTime)")
+//
 //                try! self.realm.write{
 //                    self.task.todoTitle = todoTitle
 //                    self.task.todoTime = todoTime
 //                    self.realm.add(self.task,update: .modified)
 //                }
-            }
-        })
-    }
+//            }
+//        })
+//    }
 
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
